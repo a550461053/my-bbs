@@ -31,7 +31,7 @@ def login(request):
 
     # 验证码密钥和图片
     hashkey = CaptchaStore.generate_key()
-    image_url = captcha_image_url(hashkey)
+    # image_url = captcha_image_url(hashkey)
 
     if request.method == 'POST':
         # username = request.POST.get('username', None)
