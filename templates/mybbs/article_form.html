@@ -1,0 +1,19 @@
+article表格
+<form action="{% url 'comment_post' %}" method="post">
+    {% csrf_token %}
+    <p>{{ comment_form.author }}
+    <label for="author">Name (required)</label></p>
+
+    <p>{{ comment_form.email }}
+    <label for="email">Email (Will NOT be published) (required)</label></p>
+
+    <p>{{ comment_form.url }}
+    <label for="url">URL</label></p>
+
+    <p>{{ comment_form.comment }}</p>
+
+    <p>
+        {{ comment_form.article }}
+        <input name="submit" type="submit" id="submit" tabindex="5" value="Submit" class="button" />
+    </p>
+    </form>

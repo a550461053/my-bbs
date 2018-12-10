@@ -1,0 +1,21 @@
+/*.content{*/
+    /*width: 80%;*/
+    /*float: left;*/
+    /*background-color: pink;*/
+/*}*/
+/*.content div{*/
+    /*display: none;*/
+/*}*/
+/*.sideBar{*/
+    /*width: 20%;*/
+    /*float: left;*/
+/*}*/
+/*.content div.selected{*/
+    /*display: block;*/
+/*}*/
+
+.navbar{
+  float: none;
+  text-align:center;
+}
+

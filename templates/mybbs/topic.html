@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}登录{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/static/dist/js/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" src="/static/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/yu.js"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+{#        {% if save_done == 'True' %}#}
+            <h2 class="text-center">主题列表</h2>
+{#            <div class="col-md-4 col-md-offset-4">#}
+                <ul class="list-unstyled list-inline">
+
+                    {% for topic in topic_list %}
+                        <li class="col-md-3 col-sm-3 col-xs-3 ">
+
+                            <div class="media-left">
+                            <img src="/static/img/a.png" class="media-object" style="width:160px">
+                            {{ topic }}
+                            </div>
+
+                        </li>
+
+                    {% endfor %}
+{#                <button class="btn btn-primary btn-lg center" data-toggle="modal" data-target="#myModal"  data-keyboard="true">创建新主题</button>#}
+                <a class="center" data-toggle="modal" data-target="#myModal" data-keyboard="true">
+                    <img src="/static/img/加号.png" class="media-object" style="width:160px">
+{#                    创建新主题#}
+                </a>
+
+                </ul>
+{#            </div>#}
+{#        {% endif %}#}
+
+{#<h2>模态框（Modal）插件方法</h2>#}
+<!-- 按钮触发模态框 -->
+{#<div class="col-md-10 col-md-offset-4">#}
+
+{#<button class="btn btn-primary btn-lg center" data-toggle="modal" data-target="#myModal"  data-keyboard="true">创建新主题</button>#}
+{#</div>#}
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">模态框</h4>
+            </div>
+{#            <div class="modal-body">在这里添加一些文本</div>#}
+
+{#        <div class="modal-body">#}
+
+        <div class="col-md-6 col-md-offset-3"> <!-- col-md-4 col-md-offset-4 -->
+          <form class='form-topic' action="/mybbs/topic/" method="post">
+
+              {% if message %}
+                <div class="alert alert-warning">{{ message }}</div>
+              {% endif %}
+
+              {%  csrf_token %}
+
+              <h3 class="text-center">创建新主题</h3>
+              <div class="form-group">
+                  {{ topic_form.name.label_tag }}
+                  {{ topic_form.name }}
+              </div>
+              <div class="form-group">
+                  {{ topic_form.brief.label_tag }}
+{#                  <textarea  class="form-control" rows="3"></textarea>#}
+                  {{ topic_form.brief }}
+              </div>
+{#           <textarea class="form-control" id="deblock_udid" name="deblock_udid" rows="16" style="min-width: 90%"></textarea>#}
+
+              <div class="form-group">
+                  {{ topic_form.sex.label_tag }}
+                  {{ topic_form.sex }}
+              </div>
+              <button type="reset" class="btn btn-default pull-left" value="reset">重置</button>
+              <button type="submit" class="btn btn-primary pull-right" value="submit">提交</button>
+
+{#            <p>#}
+{#                <label for="title">标题</label>#}
+{#                <input id="title" name="title" type="text">#}
+{#            </p>#}
+{##}
+{#            <p>#}
+{#                <label for="content">内容</label>#}
+{#                <textarea id="content" name="content" cols="30" rows="10"></textarea>#}
+{#            </p>#}
+{#            <p>#}
+{#                <input type="submit" class="btn btn-primary center-block " value="确定">#}
+{#            </p>#}
+          </form>
+        </div>
+
+{#        </div>#}
+
+            <div class="modal-footer">
+{#                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>#}
+{#                <button type="button" class="btn btn-primary pull-right">提交更改</button>#}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+    </div> <!-- /container -->
+{% endblock %}
