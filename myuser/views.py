@@ -31,7 +31,7 @@ def login(request):
 
     # 验证码密钥和图片
     hashkey = CaptchaStore.generate_key()
-    image_url = captcha_image_url(hashkey)
+    # image_url = captcha_image_url(hashkey)
 
     if request.method == 'POST':
         # username = request.POST.get('username', None)
@@ -83,12 +83,13 @@ def register(request):
     if request.method == "POST":
         register_form = forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
+        print('request.method == ', "POST")
         if register_form.is_valid():  # 获取数据
             username = register_form.cleaned_data['username']
             password1 = register_form.cleaned_data['password1']
             password2 = register_form.cleaned_data['password2']
             email = register_form.cleaned_data['email']
-            print(email)
+            print('register email is:', email)
             sex = register_form.cleaned_data['sex']
             if password1 != password2:  # 判断两次密码是否相同
                 message = "两次输入的密码不同！"
@@ -116,6 +117,12 @@ def register(request):
 
                 # print(new_user.email, new_user.sex, new_user.name)
                 new_user.save()
+                message = ""  # 为空表示成功
+                print('register success!')
                 return redirect('/myuser/login/')  # 自动跳转到登录页面
+    print('request is not POST')
     register_form = forms.RegisterForm()
     return render(request, 'myuser/register.html', locals())
+
+def user_info(request):
+    return render(request, 'myuser/home.html', locals())

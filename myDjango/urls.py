@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from mybbs import views as mybbs_views
+
 urlpatterns = [
     # path('', admin.site.urls),  # ^$
+    path('home/', mybbs_views.home),
     path('admin/', admin.site.urls),
     # path('mybbs/', include('mybbs.urls')),
     # path('myuser/', include('myuser.urls')),

@@ -11,6 +11,8 @@
 
     <!-- Bootstrap -->
     <link href="{% static 'dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- 固定全局css -->
+    <link href="{% static 'css/yu.css' %}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,30 +34,30 @@
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
             <span class="sr-only">切换导航条</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="icon-bar">!</span>
+            <span class="icon-bar">ceshi</span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Mysite</a>
+          <a class="navbar-brand" href="/home/">Mysite</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="my-nav">
+        <div class="collapse navbar-collapse nav-font" id="my-nav">
           <ul class="nav navbar-nav nav-pills">
             <li class=""><a href="/myuser/index/" class="nav-link">主页</a></li>
             <li class=""><a href="/mybbs/topic/" class="nav-link">主题空间</a></li>
             <li class=""><a href="/mybbs/article/">动态文章</a></li>
-            <li class=""><a href="/myuser/index/">我的</a></li>
+            <li class=""><a href="/myuser/home/">我的</a></li>
 
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                 </div>
-                <button type="submit" class="btn btn-default">搜索</button>
+                <button type="submit" class="btn btn-default nav-font">搜索</button>
             </form>
 
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right nav-font">
               {% if request.session.is_login %}
                 <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
                 <li><a href="/myuser/logout/">登出 </a></li>

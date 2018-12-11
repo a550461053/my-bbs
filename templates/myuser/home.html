@@ -1,0 +1,13 @@
+{#templates/myuser/home.html#}
+
+{% extends 'base.html' %}
+{% block title %}主页{% endblock %}
+{% block content %}
+    {% if request.session.is_login %}
+        <h1>你好，{{ request.session.user_name }}!</h1>
+        <h1>欢迎回来！</h1>
+
+    {% else %}
+        <h1>游客用户</h1>
+    {% endif %}
+{% endblock %}

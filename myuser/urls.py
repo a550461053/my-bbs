@@ -23,6 +23,7 @@ app_name = 'myuser'
 urlpatterns = [
     path('', views.index),
     path('index/', views.index),
+    path('home/', views.user_info),
     path('login/', views.login),
     path('logout/', views.logout),
     path('register/', views.register),

@@ -1,2 +1,11 @@
 .idea
 db.sqlite3
+
+# migrations
+mybbs/migrations/*
+myuser/migrations/*
+
+# __pycache__
+mybbs/__pycache__
+myuser/__pycache__
+myDjango/__pycache__
