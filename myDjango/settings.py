@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # myapp
+    'captcha',
     'myuser',
     'mybbs',
-    'captcha'
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,7 @@ CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 # 超时(minutes)
 CAPTCHA_TIMEOUT = 1
 # 图片大小
-# CAPTCHA_IMAGE_SIZE = (None, None)
+CAPTCHA_IMAGE_SIZE = (80, 35)
 
 ################################### 图片验证码配置 ##################################
+

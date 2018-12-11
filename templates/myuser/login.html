@@ -8,12 +8,15 @@
     <script type="text/javascript" src="/static/dist/js/jquery-3.3.1.min.js" ></script>
     <script type="text/javascript" src="/static/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/yu.js"></script>
-    <script>   $('#js-captcha-refresh').click(function(){
+    <script>
+        <!-- 动态刷新验证码js -->
+        $('#js-captcha-refresh').click(function(){
         $form = $(this).parents('form');
         $.getJSON($(this).data('url'), {}, function(json) {
 
         });
         return false; });
+
     </script>
 {% endblock %}
 
@@ -38,27 +41,34 @@
                   {{ login_form.password.label_tag }}
                   {{ login_form.password }}
               </div>
-
+<!-- captcha1的第一种django简写方式 -->
 {#              <div class="form-group">#}
 {#                  {{ login_form.captcha.errors }}#}
 {#                  {{ login_form.captcha.label_tag }}#}
 {#                  {{ login_form.captcha }}#}
 {#              </div>#}
 
-{#          <div class="field">#}
-{#              <div class="ui left img input">#}
+<!-- captcha2的第二种详细方式 -->
+          <div class="field">
+              <div class="ui left img input1">
 {#                  <button href="javascript:;" id='js-captcha-refresh'  class='ui icon mybutton' >#}
-{#                      <i class="refresh icon green"></i>#}
-{#<input id='js-captcha-refresh' class="captcha" alt="captcha" name="submit" type="image" src="{{ image_url}}" />#}
+{#                      <i class="ion-refresh icon green">刷新</i>#}
+{#                      </button>#}
 {#                    <img src="{{ image_url }}" alt="captcha" class="captcha">#}
-{#                  </button>#}
-{#                  <input autocomplete="off" id="id_captcha_1" name="captcha_1" type="text" placeholder="输入验证码">                    <input id="id_reg_captcha_0" name="captcha_0" type="hidden" value="{{ hashkey }}">#}
-{#              </div>#}
-{#          </div>#}
+
+                  <label>验证码:</label>
+                  <input id='js-captcha-refresh' class="captcha captcha_img" alt="captcha" name="submit" type="image" src="{{ captcha.image_url}}" />
+                  <input autocomplete="off" class="captcha_text1" id="id_captcha_1" name="captcha_1" type="text" placeholder="输入验证码">
+                  <input id="id_reg_captcha_0" class="captcha_text2" name="captcha_0" type="hidden" value="{{ captcha.hashkey }}">
+              </div>
+          </div>
 
 
+<!-- captcha3使用django的最简单的方式 -->
 {#              {{ login_form }}#}
 
+
+<!-- captcha4使用传统方式 -->
 {#              <div class="form-group">#}
 {#                <label for="id_username">用户名：</label>#}
 {#                <input type="text" name='username' class="form-control" id="id_username" placeholder="Username" autofocus required>#}
@@ -67,8 +77,10 @@
 {#                <label for="id_password">密码：</label>#}
 {#                <input type="password" name='password' class="form-control" id="id_password" placeholder="Password" required>#}
 {#              </div>#}
-              <button type="reset" class="btn btn-default pull-left">重置</button>
-              <button type="submit" class="btn btn-primary pull-right">提交</button>
+
+            <p></p>
+              <button type="reset" class="btn btn-default pull-left btn-lg">重置</button>
+              <button type="submit" class="btn btn-primary pull-right btn-lg">提交</button>
           </form>
         </div>
     </div> <!-- /container -->

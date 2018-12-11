@@ -1,3 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}登录{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/static/dist/js/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" src="/static/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/yu.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
 <div class="postdate">
     <div class="month">{{ article.date_publish }}</div>
     <div class="date">{{ article.date_publish | date:'d' }}</div>
@@ -77,3 +92,5 @@
         <p>{{ comment_form.article }}<input name="submit" type="submit" id="submit" tabindex="5" value="Submit" class="button"/></p>
     </form>
 </div>
+
+{% endblock %}

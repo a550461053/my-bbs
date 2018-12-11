@@ -27,5 +27,6 @@ urlpatterns = [
     path('login/', views.login),
     path('logout/', views.logout),
     path('register/', views.register),
-    path('captcha/', include('captcha.urls')),
+    path('captcha/', include('captcha.urls')),  # 得放在root路径下
+    # path('refresh_captcha/', views.refresh_captcha),    # 刷新验证码，ajax
 ]

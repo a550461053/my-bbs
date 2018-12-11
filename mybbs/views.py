@@ -12,7 +12,9 @@ from mybbs import forms
 
 
 def home(request):
-    return HttpResponse('hello!')
+    # return HttpResponse('hello!')
+    # 整个bbs的主页
+    return render(request, 'home.html', locals())
 
 # 定义一个分页函数
 def getPage(request, article_list):
@@ -198,7 +200,7 @@ def article_list(request):
                                         'url': request.user.url,
                                         'article': id} if request.user.is_authenticated() else{'article': id})
         except models.Article.DoesNotExist:
-            return render(request, 'mybbs/failure.html', {'reason': '没有找到对应的文章'})
+            return render(request, 'mybbs/failure.html', {'reason': '没有找到对应的文章!'})
     except Exception as e:
         #logging.error(e)
         print(e)

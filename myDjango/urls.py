@@ -19,7 +19,7 @@ from django.urls import path, include
 from mybbs import views as mybbs_views
 
 urlpatterns = [
-    # path('', admin.site.urls),  # ^$
+    path('', mybbs_views.home),  # ^$
     path('home/', mybbs_views.home),
     path('admin/', admin.site.urls),
     # path('mybbs/', include('mybbs.urls')),
@@ -27,5 +27,7 @@ urlpatterns = [
     path('mybbs/', include('mybbs.urls'), name='mybbs'),
     path('myuser/', include('myuser.urls'), name='myuser'),
     # path('mybbs/', include(('mybbs.urls', 'mybbs'), namespace='mybbs')),
-    # path('myuser/', include(('myuser.urls', 'myuser'), namespace='myuser'))
+    # path('myuser/', include(('myuser.urls', 'myuser'), namespace='myuser')),
+
+    path('captcha/', include('captcha.urls')),
 ]

@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.db import models
 import hashlib
-from myuser import models
-from myuser import forms
+from myuser import models as myuser_models
+from myuser import forms as myuser_forms
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
+import json
+
 
 # Create your views here.
 
@@ -13,6 +15,15 @@ def hash_code(s, salt='myuser'):  # 加盐
     s += salt
     h.update(s.encode())  # update方法只接收bytes类型
     return h.hexdigest()
+
+
+# 创建验证码
+def captcha_gen():
+    # 验证码，第一次请求
+    hashkey = CaptchaStore.generate_key()
+    image_url = captcha_image_url(hashkey)
+    captcha = {'hashkey': hashkey, 'image_url': image_url}
+    return captcha
 
 
 def index(request):
@@ -30,13 +41,14 @@ def login(request):
         return redirect('/myuser/index')
 
     # 验证码密钥和图片
-    hashkey = CaptchaStore.generate_key()
+    # hashkey = CaptchaStore.generate_key()
     # image_url = captcha_image_url(hashkey)
+    captcha = captcha_gen()
 
     if request.method == 'POST':
         # username = request.POST.get('username', None)
         # password = request.POST.get('password', None)
-        login_form = forms.UserForm(request.POST)
+        login_form = myuser_forms.UserForm(request.POST)
         message = "请检查填写的内容"
         if login_form.is_valid():
 
@@ -45,7 +57,7 @@ def login(request):
             # 用户名字合法性验证
             # 密码长度验证
             try:
-                user = models.User.objects.get(name=username)
+                user = myuser_models.User.objects.get(name=username)
                 # if user.password == password:
                 if user.password == hash_code(password):  # 使用哈希值与数据库的值进行比较
                     # 向session字典写入用户组状态和数据(可以写任何数据)
@@ -60,7 +72,7 @@ def login(request):
 
         # 增加了message变量，用于保存提示信息。当有错误信息的时候，将错误信息打包成一个字典，然后作为第三个参数提供给render()方法
         return render(request, 'myuser/login.html', locals())
-    login_form = forms.UserForm()
+    login_form = myuser_forms.UserForm()
     # locals()是python的内置函数，返回当前所有的本地变量字典
     # 此处：locals就等于：{'message':message, 'login_form':login_form}
     return render(request, 'myuser/login.html', locals())
@@ -80,8 +92,11 @@ def register(request):
     if request.session.get('is_login', None):
         # 登录状态不允许注册。你可以修改这条原则！
         return redirect("/myuser/index/")
+
+    captcha = captcha_gen()
+
     if request.method == "POST":
-        register_form = forms.RegisterForm(request.POST)
+        register_form = myuser_forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
         print('request.method == ', "POST")
         if register_form.is_valid():  # 获取数据
@@ -96,19 +111,19 @@ def register(request):
                 return render(request, 'myuser/register.html', locals())
             else:
                 # print(username)
-                same_name_user = models.User.objects.filter(name=username)
+                same_name_user = myuser_models.User.objects.filter(name=username)
                 if same_name_user:  # 用户名唯一
                     message = '用户已经存在，请重新选择用户名！'
                     return render(request, 'myuser/register.html', locals())
                 # print(email)
-                same_email_user = models.User.objects.filter(email=email)
+                same_email_user = myuser_models.User.objects.filter(email=email)
                 if same_email_user:  # 邮箱地址唯一
                     message = '该邮箱地址已被注册，请使用别的邮箱！'
                     return render(request, 'myuser/register.html', locals())
 
                 # 当一切都OK的情况下，创建新用户
                 # print('hrer')
-                new_user = models.User.objects.create(
+                new_user = myuser_models.User.objects.create(
                     name=username,
                     password=hash_code(password1),  # 使用加密密码
                     email=email,
@@ -121,8 +136,27 @@ def register(request):
                 print('register success!')
                 return redirect('/myuser/login/')  # 自动跳转到登录页面
     print('request is not POST')
-    register_form = forms.RegisterForm()
+    register_form = myuser_forms.RegisterForm()
     return render(request, 'myuser/register.html', locals())
 
 def user_info(request):
     return render(request, 'myuser/home.html', locals())
+
+
+# 验证验证码
+def jarge_captcha(captchaStr, captchaHashkey):
+    if captchaStr and captchaHashkey:
+        try:
+            # 获取根据hashkey获取数据库中的response值
+            get_captcha = CaptchaStore.objects.get(hashkey=captchaHashkey)
+            # 如果验证码匹配
+            if get_captcha.response == captchaStr.lower():
+                return True
+        except:
+            return False
+    else:
+        return False
+
+
+def refresh_captcha(request):
+    return HttpResponse(json.dumps(captcha()), content_type='application/json')
